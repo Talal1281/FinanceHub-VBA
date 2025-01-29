@@ -1,0 +1,67 @@
+Sub calculate_tuition()
+    Dim cr As Double
+    Dim cost_per_cr As Double
+    Dim fixed_fees As Double
+    Dim total_cost As Double
+
+    cr = Application.InputBox("Enter total credit hours:", Type:=1)
+    cost_per_cr = Application.InputBox("Enter cost per credit hour:", Type:=1)
+    fixed_fees = Application.InputBox("Enter fixed fees for the semester:", Type:=1)
+
+    total_cost = (cr * cost_per_cr) + fixed_fees
+    MsgBox "Total tuition and fees for the semester: $" & Format(total_cost, "0.00")
+End Sub
+
+Sub track_expenses()
+    Dim mnth As String
+    Dim exp As Double
+    Dim bud As Double
+    Dim last_row As Long
+
+    mnth = Application.InputBox("Enter the month:")
+    exp = Application.InputBox("Enter total expenses for the month:", Type:=1)
+    bud = Application.InputBox("Enter your budget for the month:", Type:=1)
+
+    With ThisWorkbook.Sheets("Finances")
+        last_row = .Cells(.Rows.Count, "A").End(xlUp).Row + 1
+        .Cells(last_row, 1).Value = mnth
+        .Cells(last_row, 2).Value = exp
+        .Cells(last_row, 3).Value = bud
+        .Cells(last_row, 4).Formula = "=C" & last_row & "-B" & last_row
+    End With
+
+    If exp > bud Then
+        MsgBox "You are over budget by: $" & Format(exp - bud, "0.00")
+    Else
+        MsgBox "You are within budget. Remaining: $" & Format(bud - exp, "0.00")
+    End If
+End Sub
+
+Sub calculate_aid_balance()
+    Dim aid_rcvd As Double
+    Dim tuition_costs As Double
+    Dim other_exp As Double
+    Dim balance As Double
+
+    aid_rcvd = Application.InputBox("Enter total financial aid received:", Type:=1)
+    tuition_costs = Application.InputBox("Enter total tuition costs:", Type:=1)
+    other_exp = Application.InputBox("Enter other expenses paid by aid:", Type:=1)
+
+    balance = aid_rcvd - (tuition_costs + other_exp)
+    MsgBox "Remaining financial aid balance: $" & Format(balance, "0.00")
+End Sub
+
+Sub calculate_investment_growth()
+    Dim princ As Double
+    Dim rate As Double
+    Dim yrs As Integer
+    Dim future_val As Double
+
+    princ = Application.InputBox("Enter the principal amount:", Type:=1)
+    rate = Application.InputBox("Enter the annual interest rate (as a decimal):", Type:=1)
+    yrs = Application.InputBox("Enter the number of years:", Type:=1)
+
+    future_val = princ * (1 + rate) ^ yrs
+    MsgBox "The future value of your investment: $" & Format(future_val, "0.00")
+End Sub
+
